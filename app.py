@@ -32,6 +32,7 @@ def get_random_image(breed_id):
     headers = {'x-api-key': CAT_API}
 
     response = requests.get(url, headers=headers)
+    print(response.json())
     return jsonify(response.json())
 
 

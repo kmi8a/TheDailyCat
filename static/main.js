@@ -2,6 +2,7 @@ const breedSelect = document.getElementById('breeds');
 const showCatBtn = document.getElementById('show-cat-btn');
 const img = document.getElementById('cat-image');
 const msg = document.getElementById('no-image-msg');
+const desc = document.getElementById('cat-description');
 
 // Passes Abyssinian breed id (First breed in the selector) to image loader
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,6 +28,7 @@ async function loadCatImage(breedId) {
             img.style.display = 'none';
             msg.textContent = 'No images found for this breed.';
             msg.style.display = 'block';
+            desc.textContent = '';
             return;
         }
 
@@ -36,6 +38,10 @@ async function loadCatImage(breedId) {
         img.onload = () => {
             msg.style.display = 'none';
             img.style.display = 'block';
+            // gets breed description if available
+            if (desc) {
+                desc.textContent = image['breeds'][0]['description'];
+            }
         }
 
     } catch (error) {
