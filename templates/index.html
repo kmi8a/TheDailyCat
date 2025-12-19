@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Breeds
+{% endblock %}
+
+{% block main %}
+    <div class="col-md-6 offset-md-3 section justify-content-center mb-5">
+        <h1 class="mb-3">Choose a cat breed:</h1>
+
+        <div class="d-flex justify-content-center mb-5">
+            <div class="input-group breed-select">
+                <select name="breeds" id="breeds" class="form-select">
+                    <option value="breed1">breed1</option>
+                    <option value="breed2">breed2</option>
+                    <option value="breed3">breed3</option>
+                </select>
+                <button id="show-cat-btn" class="btn btn-primary" type="button">Show me a cat!</button>
+            </div>
+        </div>
+
+        <div id="cat-image-container">
+            <img id="cat-image" class="rounded" src="https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg" alt="Cat image">
+        </div>          
+    </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+#cat-image-container
+{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#cat-image
+{
+    max-width: 400px;
+    max-height: 400px;
+    margin: 0 auto;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #797979;
+}
+
+.footer-text    {
+    padding-top: 20px;
+}
