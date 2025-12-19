@@ -11,9 +11,9 @@
         <div class="d-flex justify-content-center mb-5">
             <div class="input-group breed-select">
                 <select name="breeds" id="breeds" class="form-select">
-                    <option value="breed1">breed1</option>
-                    <option value="breed2">breed2</option>
-                    <option value="breed3">breed3</option>
+                    {% for breed in breeds %}
+                        <option value="{{ breed.id }}">{{ breed.name }}</option>
+                    {% endfor %}
                 </select>
                 <button id="show-cat-btn" class="btn btn-primary" type="button">Show me a cat!</button>
             </div>
@@ -23,4 +23,6 @@
             <img id="cat-image" class="rounded" src="https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg" alt="Cat image">
         </div>          
     </div>
+
+    <script src="/static/main.js"></script>
 {% endblock %}
