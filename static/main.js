@@ -4,6 +4,8 @@ const img = document.getElementById('cat-image');
 const msg = document.getElementById('no-image-msg');
 const desc = document.getElementById('cat-description');
 const favBtn = document.getElementById('fav-btn');
+const favWarning = document.getElementById('fav-warning');
+
 
 let currentImageId = null;
 let isFavourite = null;
@@ -21,11 +23,15 @@ showCatBtn.addEventListener('click', () => {
     loadCatImage(breedId);
 });
 
-// Loads an image accoridng to the breed selected
+// Loads an image according to the breed selected
 async function loadCatImage(breedId) {
 
     try {
         const response = await fetch(`/${breedId}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
 
         if (data.length === 0) {
@@ -54,11 +60,12 @@ async function loadCatImage(breedId) {
         // check if image is in favourites, and change the button accordingly
         currentImageId = image.id;
         isFavourite = 'favourite' in image;          
-    
+        
         favBtn.classList.remove('disabled')
         favBtn.disabled = false
+
         if (isFavourite) {
-            currentFavouriteId = image.favourite;
+            currentFavouriteId = image.favourite.id;
             favBtn.textContent = '😭 Remove favourite';
         } else {
         currentFavouriteId = null;
@@ -66,19 +73,20 @@ async function loadCatImage(breedId) {
         }
 
 
+
     } catch (error) {
         msg.textContent = 'Error fetching image.';
         msg.style.display = 'block';
-        favBtn.classList.add('disabled')
-        favBtn.disabled = true
-
+        if (favBtn) {
+            favBtn.classList.add('disabled')
+            favBtn.disabled = true
+        }
         console.error(error);
     }
 }
 
 
 // Add favorite and remove favorite
-
 favBtn.addEventListener('click', async () => {
     if (!currentImageId) {
         return;
@@ -90,11 +98,28 @@ favBtn.addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_id: currentImageId })
         });
+
         const data = await res.json();
+
+        if (!data.id){
+            favWarning.style.display = 'block';
+            favWarning.textContent = 'Favourite adding was not successful, try again.'
+            return;
+            }
+
         currentFavouriteId = data.id;
         favBtn.textContent = '😭 Remove favourite';
     } else {
-        await fetch(`/remove_favourite/${currentFavouriteId}`, { method: 'DELETE' });
+        const res = await fetch(`/remove_favourite/${currentFavouriteId}`, { method: 'DELETE' });
+        const data = await res.json()
+
+        if (!data.deleted) {
+            favWarning.style.display = 'block';
+            favWarning.textContent = 'Favourite removing was not successful, try again.'
+            return;
+        }
+
+        favWarning.style.display = 'none';
         currentFavouriteId = null;
         favBtn.textContent = '💙 Favourite';
     }
